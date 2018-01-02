@@ -23,5 +23,22 @@ public class TinyUrl {
 	public void setLongUrl(String longUrl) {
 		this.longUrl = longUrl;
 	}
+	public TinyUrl() {
+		
+	}
+	public TinyUrl(String tinyUrl, String longUrl) {
+		this.url=tinyUrl;
+		this.longUrl=longUrl;
+	}
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("TinyUrl [url=");
+		builder.append(url);
+		builder.append(", longUrl=");
+		builder.append(longUrl);
+		builder.append("]");
+		return builder.toString();
+	}
 	
 }
