@@ -31,7 +31,9 @@ It will accept the long url as input and generates the tiny url.
 
 ### For example: 
 
-    POST "https://github.com/gramcha/diy-tinyurl/blob/master/src/main/java/com/gramcha/service/UrlService.java" as raw text to this endpoint. Endpoint will return below result in response.
+    POST "https://github.com/gramcha/diy-tinyurl/blob/master/src/main/java/com/gramcha/service/UrlService.java" as raw text to this endpoint. 
+
+Endpoint will return below result in response.
 
     {
     "tinyUrl": "http://localhost:8080/tN72u2j",
