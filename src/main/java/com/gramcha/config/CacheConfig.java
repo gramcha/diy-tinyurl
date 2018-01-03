@@ -5,6 +5,7 @@
  */
 package com.gramcha.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.cache.annotation.EnableCaching;
@@ -19,30 +20,33 @@ import org.springframework.data.redis.core.RedisTemplate;
 @EnableCaching
 public class CacheConfig extends CachingConfigurerSupport {
 
-  @Bean
-  public JedisConnectionFactory redisConnectionFactory() {
-    JedisConnectionFactory redisConnectionFactory = new JedisConnectionFactory();
+	@Autowired
+	ConfigProvider environment;
+	@Bean
+	public JedisConnectionFactory redisConnectionFactory() {
+		JedisConnectionFactory redisConnectionFactory = new JedisConnectionFactory();
 
-    // Defaults
-    redisConnectionFactory.setHostName("127.0.0.1");//TODO:get from application.properties
-    redisConnectionFactory.setPort(6379);//TODO:get from application.properties
-    return redisConnectionFactory;
-  }
+		// Defaults
+		redisConnectionFactory.setHostName(environment.getRedisIpAddress());
+		redisConnectionFactory.setPort(Integer.parseInt(environment.getRedisPortNumber()));
+		return redisConnectionFactory;
+	}
 
-  @Bean
-  public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory cf) {
-    RedisTemplate<String, Object> redisTemplate = new RedisTemplate<String, Object>();
-    redisTemplate.setConnectionFactory(cf);
-    return redisTemplate;
-  }
+	@Bean
+	public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory cf) {
+		RedisTemplate<String, Object> redisTemplate = new RedisTemplate<String, Object>();
+		redisTemplate.setConnectionFactory(cf);
+		return redisTemplate;
+	}
 
-  @Bean
-  public CacheManager cacheManager(RedisTemplate redisTemplate) {
-    RedisCacheManager cacheManager = new RedisCacheManager(redisTemplate);
+	@Bean
+	public CacheManager cacheManager(RedisTemplate redisTemplate) {
+		RedisCacheManager cacheManager = new RedisCacheManager(redisTemplate);
 
-    // Number of seconds before expiration. Defaults to unlimited (0)
-    cacheManager.setDefaultExpiration(300);
-    return cacheManager;
-  }
+		// Number of seconds before expiration. Defaults to unlimited (0)
+		cacheManager.setDefaultExpiration(Long.parseLong(environment.getRedisCacheExpirationSeconds()));
+		return cacheManager;
+	}
 }
-//refered from http://caseyscarborough.com/blog/2014/12/18/caching-data-in-spring-using-redis/
+// refered from
+// http://caseyscarborough.com/blog/2014/12/18/caching-data-in-spring-using-redis/
