@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.gramcha.entities.TinyUrl;
+import com.gramcha.entities.Url;
 import com.gramcha.service.UrlService;
 
 @RestController
@@ -29,6 +29,7 @@ public class Index {
 	public ResponseEntity<String> ping() throws Exception{
 		return ResponseEntity.ok("pong - ");
 	}
+	
 	@RequestMapping(value="/{url}")
 	public ResponseEntity<Object> redirect(@PathVariable String url) throws Exception{
 		String longUrl = urlService.getLongUrl(url);
@@ -37,7 +38,7 @@ public class Index {
 		return new ResponseEntity<>(headers, HttpStatus.MOVED_PERMANENTLY);
 	}
 	@RequestMapping(value="/shorten")
-	public ResponseEntity<TinyUrl> postTransaction(@RequestBody String longUrl) throws Exception{
+	public ResponseEntity<Url> postTransaction(@RequestBody String longUrl) throws Exception{
 		return ResponseEntity.ok(urlService.generateTinyUrl(longUrl));
 	}
 }
