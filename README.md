@@ -26,7 +26,19 @@ Redis cache configuration are added into application.properties file.
 # Endpoints
 
 1.**shorten**
-It will accept the long url as input and generates the tiny url.
+
+It will accept the long url as input and generates the tiny url. 
+
+### For example: 
+
+POST "https://github.com/gramcha/diy-tinyurl/blob/master/src/main/java/com/gramcha/service/UrlService.java" as raw text to this endpoint. Endpoint will return below result in response.
+
+    {
+    "tinyUrl": "http://localhost:8080/tN72u2j",
+    "longUrl": "https://github.com/gramcha/diy-tinyurl/blob/master/src/main/java/com/gramcha/service/UrlService.java",
+    "key": "tN72u2j"
+    }
 
 2.**/{tinyurlkey}**
+
 This endpoint is getting hitted when tiny url used. Service extracts key from the url and finds the match in redis cache to redirect to long url.
